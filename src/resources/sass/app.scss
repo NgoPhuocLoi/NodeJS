@@ -1,0 +1,16 @@
+@import './variables.scss';
+
+
+h1{
+    color: $red-color;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #343A40;
+}
+

@@ -1,0 +1,91 @@
+
+
+
+<div class="card-container mt-4">
+  <div class="user-heading mt-2">
+    <h1 class="text-center text-dark">Trash Bin</h1>
+    <a href="/user" class="btn btn-dark"><-- Return</a>
+  </div>
+  <div class="row">
+    {{#each users}}
+      <div class="col-lg-3 mt-4">
+        <div class="card">
+          <img class="card-img-top" src="{{this.avtUrl}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Name: {{this.name}}</h5>
+            <p class="card-text">Age: {{this.age}}</p>
+            <div class="card-actions d-flex">
+              <button class="btn btn-primary restore-btn" data-id="{{this._id}}">Restore</button>
+              <button class="btn btn-danger ml-auto delete-btn" data-toggle="modal" data-target="#delete-modal"  data-id="{{this._id}}">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{else}}
+      <div class="h5 text-center w-100">Empty Trash Bin</div>
+    {{/each}}
+  </div>
+  
+</div>
+
+{{!-- modal delete --}}
+
+<div id="delete-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger submit-btn">Yes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- hidden form delete --}}
+<form method="POST" class="delete-form"></form> {{!-- <form method="POST" action="/user/{{user._id}}?_method=PUT"></form> --}}
+<form method="POST" class="restore-form"></form> {{!-- <form method="POST" action="/user/{{user._id}}?_method=PUT"></form> --}}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+
+        
+
+        const deleteBtns = document.querySelectorAll('.delete-btn')
+        const restoreBtns = document.querySelectorAll('.restore-btn')
+        const deleteForm = document.querySelector('.delete-form')
+        const restoreForm = document.querySelector('.restore-form')
+        const submitBtn = document.querySelector('.submit-btn')
+        
+        deleteBtns.forEach(btn => {
+            btn.addEventListener('click', function(){
+                const userID = btn.dataset.id
+                deleteForm.action = `/user/${userID}/force?_method=DELETE `
+          })
+        })
+
+        restoreBtns.forEach(btn => {
+            btn.addEventListener('click', function(e){
+                e.preventDefault()
+                const userID = btn.dataset.id
+                restoreForm.action = `/user/${userID}/restore?_method=PATCH `
+                restoreForm.submit()
+          })
+        })
+        
+        submitBtn.addEventListener('click', function(){
+            deleteForm.submit()
+        })
+    })
+
+    
+</script>

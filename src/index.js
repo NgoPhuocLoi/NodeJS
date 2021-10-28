@@ -1,6 +1,6 @@
 
 const express = require('express')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const handlebars  = require('express-handlebars')
 const path = require('path')
 const app = express()
@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // HTTP logger
-app.use(morgan('tiny')) // combined, tiny, ...
+// app.use(morgan('tiny')) // combined, tiny, ...
 
 // template engine
 app.engine('hbs', handlebars({

@@ -18,118 +18,57 @@
 * {
     box-sizing: border-box;
 }
-
+h1 {
+    color: #eee;
+    margin-bottom: 30px;
+}
 .container {
+    padding: 40px;
     margin: 0 auto;
     max-width: 1000px;
     text-align: center;
 }
 
-/* #coursesList {
-    padding-inline-start: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 20px;
-}
-
-.course {
-    list-style-type: none;
-    background-color: #eaeaea;
-    border-radius: 3px;
-    padding: 10px 20px;
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas:
-        'name image'
-        'house image';
-    text-align: left;
-}
-
-.course > h2 {
-    grid-area: name;
-    margin-bottom: 0px;
-}
-
-.course > p {
-    grid-area: house;
-    margin: 0;
-    margin-top: -18px;
-}
-
-.course > img {
-    max-height: 100px;
-    grid-area: image;
-} */
 
 #coursesList{
     padding: 0;
     margin: 0;
     list-style: none;
     display: flex;
+    
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-/* .course{
+.course{
     background-color: #fff;
-    width: 48%;
+    width: 100%;
     display: flex;
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
-
-} */
-.course{
-    width: 350px; height: 120px;
-	
-	background: #f2f9fe;
-	background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -ms-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	
-	border-radius: 100px;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-	
-	position: relative;
-	margin: 120px auto 20px;
+    flex-direction: row-reverse;
 }
 
-.course:after, .course:before {
-	content: '';
-	position: absolute;
-	background: #f2f9fe;
-	z-index: -1
-}
-
-.course:after {
-	width: 100px; height: 100px;
-	top: -50px; left: 50px;
-	
-	border-radius: 100px;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-}
-
-.course:before {
-	width: 180px; height: 180px;
-	top: -90px; right: 50px;
-	border-radius: 200px;
-	-webkit-border-radius: 200px;
-	-moz-border-radius: 200px;
-}
 
 
 .course-info{
-    flex: 2;
+    flex: 4;
     padding: 10px;
 }
 
 .course-info h2 {
-    margin-top: -18px;
+    /* margin-top: -18px; */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    height: fit-content;
+    overflow-y: hidden;
+}
+
+.course-info h5{
+    margin-top: 20px;
 }
 
 .course-img{
@@ -168,9 +107,9 @@
     right: 15px;
 }
 
-@media (max-width:770px){
+@media (max-width:550px){
     .course{
-        width: 100%;
+        flex-direction: column-reverse;
     }
 }
         </style>
@@ -178,8 +117,8 @@
     <body>
         <div class="container mt-4">
             <ul id="coursesList">
-            {{#each formulas}}
-                <div name="{{this.name}}" class="input"></div>
+            {{#each TNs}}
+                <div name="{{this.name}}" age="{{this.class}}" imgUrl="{{this.imgUrl}}" videoUrl="{{this.videoUrl}}" class="input"></div>
             {{/each}}
             </ul>
         </div>
@@ -196,7 +135,12 @@ const courses = []
 const input = document.querySelectorAll("div[name]")
 
 input.forEach(course => {
-    courses.push({name: course.getAttribute("name")})
+    courses.push({
+        name: course.getAttribute("name"),
+        class: course.getAttribute("age"),
+        imgUrl: course.getAttribute("imgUrl"),
+        videoUrl: course.getAttribute("videoUrl"),
+    })
 })
 console.log(courses)
 
@@ -207,7 +151,8 @@ searchBar.addEventListener('keyup', (e) => {
         const indexSlap = course.name.indexOf("\\")
         const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
         return (
-            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString)
+            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString) ||
+            course.class.toLowerCase().includes(searchString)
         );
     });
 
@@ -231,9 +176,11 @@ const displayCourses = (courses) => {
             <li class="course">
                 <div class="course-info">
                     <h2>${course.name}</h2>
-                    
+                    <h5>Lớp: ${course.class}</h5>
                 </div>
-                
+                <a href="${course.videoUrl}" class="course-img" target="_blank">
+                    <img src="${course.imgUrl}" />   
+                </a>
                 
             </li>
         `;

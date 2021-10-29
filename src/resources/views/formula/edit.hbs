@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <!-- <link rel="stylesheet" href="app.css"> -->
+        
+        <style>
+            body {
+    font-family: sans-serif;
+    background-color: #ccc;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+    text-align: center;
+}
+
+
+#coursesList{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+ .course{
+    background-color: #fff;
+    width: 48%;
+    display: flex;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+
+} 
+
+
+
+.course-info{
+    flex: 2;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-btn{
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: red;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.course-info h2 {
+    margin-top: -18px;
+}
+
+.course-img{
+    flex: 3;
+    padding: 10px;
+}
+
+.course img{
+    width: 100%;
+    /* height: 100%; */
+    border-radius: 6px;
+}
+
+#searchBar {
+    width: 100%;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #eaeaea;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+#searchWrapper {
+    position: relative;
+}
+
+#searchWrapper input{
+    height: 46px;
+    font-size: 16px;
+}
+
+#searchWrapper::after {
+    content: '🔍';
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+@media (max-width:770px){
+    .course{
+        width: 100%;
+    }
+}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="mt-4">
+                <form method="POST" action="/formula/store"> 
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" class="form-control" id="name">
+                    </div>
+                    
+
+                    <button type="submit" class="btn btn-dark">Submit</button>
+                </form>
+            </div>
+            <div id="searchWrapper">
+                <input
+                    type="text"
+                    name="searchBar"
+                    id="searchBar"
+                    placeholder="Nhập tên công thức để tìm kiếm"
+                />
+            </div>
+            <ul id="coursesList">
+            {{#each formulas}}
+                <div name="{{this.name}}" id="{{this._id}}" class="input"></div>
+            {{/each}}
+            </ul>
+        </div>
+
+        <form method="POST" class="delete-form"></form>
+        
+       
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+        <!-- <script src="custom.js"></script> -->
+        <script>
+                        
+const coursesList = document.getElementById('coursesList');
+const searchBar = document.getElementById('searchBar');
+const courses = []
+const input = document.querySelectorAll("div[name]")
+
+input.forEach(course => {
+    courses.push({
+        id: course.getAttribute("id"),
+        name: course.getAttribute("name")
+    })
+})
+console.log(courses)
+
+searchBar.addEventListener('keyup', (e) => {
+    const searchString = e.target.value.toLowerCase();
+
+    const filteredCourses = courses.filter((course) => {
+        const indexSlap = course.name.indexOf("\\")
+        const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
+        return (
+            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString)
+        );
+    });
+
+
+    
+    displayCourses(filteredCourses);
+    MathJax.typeset(); 
+});
+
+/*
+<a href="${course.video}" class="course-img" target="_blank">
+                    <img src="${course.image}" />   
+                </a>
+    <h5>${course.age}</h5>
+*/
+
+const displayCourses = (courses) => {
+    const htmlString = courses
+        .map((course) => {
+            return `
+            <li class="course">
+                <div class="course-info">
+                    ${course.name}
+                    
+                </div>
+                
+                <button class="delete-btn" id="${course.id}">X</button>
+            </li>
+        `;
+        })
+        .join('');
+    coursesList.innerHTML = htmlString;
+};
+displayCourses(courses);
+
+            
+            
+        </script>
+
+        <script>
+            const submitBtn = document.querySelector('.submit-btn')
+            const deleteBtns = document.querySelectorAll('.delete-btn')
+            const deleteForm = document.querySelector('.delete-form')
+            console.log(deleteBtns)
+            deleteBtns.forEach(btn => {
+                btn.addEventListener('click', function(){
+                    const formulaID = btn.getAttribute("id")
+                    deleteForm.action = `/formula/${formulaID}/force?_method=DELETE `
+                    deleteForm.submit()
+            })
+            })
+            
+        </script>
+    </body>
+</html>

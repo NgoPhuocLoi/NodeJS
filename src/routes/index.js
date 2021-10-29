@@ -1,8 +1,12 @@
 const newsRouter = require('./news')
 const siteRouter = require('./site')
 const userRouter = require('./user')
+const formulaRouter = require('./formula')
+
 function route(app){
     app.use('/news', newsRouter)
+
+    app.use('/formula', formulaRouter)
 
     app.use('/', siteRouter)
 

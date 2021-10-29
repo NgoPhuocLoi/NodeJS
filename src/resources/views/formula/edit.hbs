@@ -22,7 +22,6 @@
 .container {
     margin: 0 auto;
     max-width: 1000px;
-    text-align: center;
 }
 
 
@@ -93,6 +92,7 @@
 
 #searchWrapper {
     position: relative;
+
 }
 
 #searchWrapper input{
@@ -119,15 +119,15 @@
             <div class="mt-4">
                 <form method="POST" action="/formula/store"> 
                     <div class="form-group">
-                        <label for="name">Name</label>
+                        <label for="name">Nhập công thức để thêm</label>
                         <input type="text" name="name" class="form-control" id="name">
                     </div>
                     
 
-                    <button type="submit" class="btn btn-dark">Submit</button>
+                    <button type="submit" class="btn btn-dark">Thêm</button>
                 </form>
             </div>
-            <div id="searchWrapper">
+            <div id="searchWrapper" class="mt-4">
                 <input
                     type="text"
                     name="searchBar"

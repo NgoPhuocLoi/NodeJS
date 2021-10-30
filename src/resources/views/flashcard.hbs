@@ -1,0 +1,229 @@
+
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  background-color: #13141B;
+}
+
+.card-container{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+.flip-list{
+    list-style: none;
+    /* display: flex;
+    gap: 10px; */
+    /* flex-grow: 100%; */
+}
+
+.flip-box {
+  background-color: transparent;
+  width: 700px;
+  height: 400px;
+  /* border: 1px solid #f1f1f1; */
+  perspective: 1000px;
+  cursor: pointer;
+  /* flex-shrink: 0; */
+} 
+
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+}
+
+.active.flip-box .flip-box-inner {
+  transform: rotateX(180deg);
+}
+
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  /* -webkit-backface-visibility: hidden;
+  backface-visibility: hidden; */
+  border-radius: 20px;
+  background-color: #1A1D28;
+  color: #CFD1D6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-box-front h2, .flip-box-back h2 {
+    line-height: 1.4;
+    padding: 0 16px;
+    width: 100%;
+    height: fit-content;
+    word-wrap: break-word;
+    
+}
+
+.flip-box-back {
+  transform: rotateX(180deg);
+}
+
+.wraper{
+  margin:auto;
+  max-width: 700px;
+  overflow-x: hidden;
+  position: relative;
+  height: 460px;
+}
+
+.button-prev, .button-next{
+  font-size: 10px;
+    position: absolute;
+    transform: translateY(200px);
+    z-index: 2;
+  width: 36px;
+  height: 36px;
+  background-color: #1A1D28;
+  border-radius: 50%;
+  transition: .2s;
+}
+
+.button-prev:hover, .button-next:hover{
+  background-color: #FFCD1F;
+
+}
+
+.button-prev{
+  left: 35%;
+}
+
+.button-next{
+  right: 35%;
+}
+
+.swiper-pagination{
+  position: absolute;
+  bottom: 5%;
+  z-index: -1;
+  color: #fff !important;
+}
+.swiper-button-next:after{
+    content: 'next';
+    font-size: 16px ;
+}
+
+.swiper-button-prev:after{
+    content: 'prev';
+    font-size: 16px ;
+}
+
+@media (max-width:500px){
+  .flip-box-front h2, .flip-box-back h2 {
+    font-size: 20px !important;
+}
+  .button-prev{
+  left: 30%;
+}
+
+.button-next{
+  right: 30%;
+}
+
+
+</style>
+</head>
+<body>
+
+
+
+<div class="card-container">
+  <div class="wraper">
+    <div class="list swiper-wrapper">
+    </div>
+  
+    <div class="swiper-button-prev button-prev "></div>
+    <div class="swiper-button-next button-next "></div>
+  
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<div class="list-data">
+    {{#each flashcards}}
+        <div frontSide="{{this.frontSide}}" backSide="{{this.backSide}}" id={{this._id}} class="input"></div>
+    {{/each}}
+</div>
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+
+<script>
+
+    const listData = []
+    const input = document.querySelectorAll(".input")
+    input.forEach(item => {
+        listData.push({
+            frontSide: item.getAttribute("frontSide"),
+            backSide: item.getAttribute("backSide"),
+        })
+    })
+
+    const listCard = document.querySelector(".list")
+    const html = listData.map(card => {
+        return `
+              <div class="flip-box swiper-slide">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <h2>${card.frontSide}</h2>
+            </div>
+            <div class="flip-box-back">
+              <h2>${card.backSide}</h2>
+            </div>
+          </div>
+        </div>
+        `
+    }).join("")
+    listCard.innerHTML = html;
+</script>
+
+
+<script>
+    const flipBoxs = document.querySelectorAll(".flip-box")
+    const inner = document.querySelector(".flip-box-inner")
+    flipBoxs.forEach(flipBox => {
+        flipBox.addEventListener("click", function(){
+            flipBox.classList.toggle("active")
+        })
+    })
+
+    const p_productList = new Swiper('.wraper', {
+            slidesPerView:1,
+            slidesPerGroup:1,
+            spaceBetween: 10,
+            // loop:true,
+            navigation: {
+              nextEl: '.button-next',
+              prevEl: '.button-prev',
+            },
+            pagination: {
+              el: ".swiper-pagination",
+              type: "fraction",
+            },
+    })
+    
+    const contents = document.querySelectorAll(".flip-box-inner h2")
+    contents.forEach(content => {
+      if(content.innerText.length >= 260){
+        content.style.fontSize = '24px'
+      }
+    })
+</script>
+</body>
+</html>

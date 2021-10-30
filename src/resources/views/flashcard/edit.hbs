@@ -1,0 +1,200 @@
+
+<style>
+body {
+  height: 100vh;
+  background-color: #13141B;
+}
+*{
+    margin: 0;padding: 0;
+}
+
+.list{
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    padding-bottom: 20px;
+}
+
+.item{
+    display: flex;
+    background-color: #282E3E;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    position: relative;
+}
+
+.front-side{
+    width: 50%;
+    word-wrap: break-word;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.front-side::after{
+    content: "Mặt trước";
+    font-size: 12px;
+    display: block;
+    width: 90%;
+    border-top: 2px solid #fff;
+    color: #fff;
+}
+
+.back-side{
+    width: 50%;
+    word-wrap: break-word;
+    border-left: 1px solid #fff;
+    padding-left: 10px;
+}
+
+.back-side::after{
+    content: "Mặt sau";
+    font-size: 12px;
+    display: block;
+    width: 90%;
+    border-top: 2px solid #fff;
+    color: #fff;
+}
+
+mjx-container{
+    text-align: left !important;
+}
+
+.form-group label{
+    color: #fff;
+}
+
+.form-control, .form-control:focus{
+    background-color: #282E3E;
+    color: #fff;
+}
+
+.delete-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.delete-btn:hover{
+    color: red;
+}
+
+</style>
+</head>
+<body>
+{{> header}}
+<div class="mt-4">
+    <form method="POST" action="/flashcard/store"> 
+        <div class="form-group">
+            <label for="frontSide">Nhập mặt trước</label>
+            <input type="text" name="frontSide" class="form-control" id="frontSide">
+        </div>
+        <div class="form-group">
+            <label for="backSide">Nhập mặt sau</label>
+            <textarea name="backSide" id="backSide" cols="30" rows="10" class="form-control"></textarea>
+            
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Thêm</button>
+    </form>
+</div>
+
+
+
+    <ul class="list">
+    </ul>
+
+</div>
+
+<div class="list-data">
+    {{#each flashcards}}
+        <div frontSide="{{this.frontSide}}" backSide="{{this.backSide}}" id={{this._id}} class="input"></div>
+    {{/each}}
+</div>
+
+<form method="POST" class="delete-form"></form>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+
+<script>
+
+    const listData = []
+    const input = document.querySelectorAll(".input")
+    input.forEach(item => {
+        listData.push({
+            id: item.getAttribute("id"),
+            frontSide: item.getAttribute("frontSide"),
+            backSide: item.getAttribute("backSide"),
+        })
+    })
+
+    const listCard = document.querySelector(".list")
+    const html = listData.map(card => {
+        return `
+              <li class="item">
+          
+            <div class="front-side">
+              <p>${card.frontSide}</p>
+            </div>
+            <div class="back-side">
+              <p>${card.backSide}</p>
+            </div>
+            <button class="delete-btn" id="${card.id}">X</button>
+        </li>
+        `
+    }).join("")
+    listCard.innerHTML = html;
+</script>
+
+<script>
+    const deleteBtns = document.querySelectorAll('.delete-btn')
+    const deleteForm = document.querySelector('.delete-form')
+    console.log(deleteBtns)
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', function(){
+            const flashcardID = btn.getAttribute("id")
+            deleteForm.action = `/flashcard/${flashcardID}/force?_method=DELETE `
+            deleteForm.submit()
+    })
+    })
+    
+</script>
+
+{{!-- <script>
+    const flipBoxs = document.querySelectorAll(".flip-box")
+    const inner = document.querySelector(".flip-box-inner")
+    flipBoxs.forEach(flipBox => {
+        flipBox.addEventListener("click", function(){
+            flipBox.classList.toggle("active")
+            MathJax.typeset();
+        })
+    })
+
+    const p_productList = new Swiper('.wraper', {
+            slidesPerView:1,
+            slidesPerGroup:1,
+            spaceBetween: 10,
+            // loop:true,
+            navigation: {
+              nextEl: '.button-next',
+              prevEl: '.button-prev',
+            },
+            pagination: {
+              el: ".swiper-pagination",
+              type: "fraction",
+            },
+    })
+    
+    
+</script> --}}
+</body>
+</html>

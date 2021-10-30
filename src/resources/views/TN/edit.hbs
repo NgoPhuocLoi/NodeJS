@@ -1,8 +1,7 @@
 
 <style>
             body {
-    font-family: sans-serif;
-    background-color: #ccc;
+    background-color: #13141B;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -16,7 +15,6 @@ h1 {
 }
 .container {
     margin: 0 auto;
-    max-width: 1000px;
 }
 
 
@@ -32,13 +30,14 @@ h1 {
 }
 
 .course{
-    background-color: #fff;
+    background-color: #282E3E;
     width: 48%;
     display: flex;
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
     flex-direction: row-reverse;
+    color: #fff;
 }
 
 
@@ -102,10 +101,29 @@ h1 {
         flex-direction: column-reverse;
     }
 }
+
+.form-group label{
+    color: #fff;
+}
+
+.form-control, .form-control:focus{
+    background-color: #282E3E;
+    color: #fff;
+}
  </style>
     </head>
     <body>
-        <div class="container">
+        {{> header}}
+
+
+            <div id="searchWrapper" class="mt-4">
+            <input
+                type="text"
+                name="searchBar"
+                id="searchBar"
+                placeholder="Nhập tên công thức để tìm kiếm"
+            />
+        </div>
             <div class="mt-4">
                 <form method="POST" action="/TN/store"> 
                     <div class="form-group">
@@ -135,7 +153,7 @@ h1 {
                 <div name="{{this.name}}" age="{{this.class}}" imgUrl="{{this.imgUrl}}" videoUrl="{{this.videoUrl}}" id={{this._id}} class="input"></div>
             {{/each}}
             </ul>
-        </div>
+
 
         <form method="POST" class="delete-form"></form>
         
@@ -163,12 +181,13 @@ console.log(courses)
 
 searchBar.addEventListener('keyup', (e) => {
     const searchString = e.target.value.toLowerCase();
-
+    console.log(searchString)
     const filteredCourses = courses.filter((course) => {
         const indexSlap = course.name.indexOf("\\")
         const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
         return (
-            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString)
+            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString) ||
+            course.class.toLowerCase().includes(searchString)
         );
     });
 

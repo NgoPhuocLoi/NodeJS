@@ -25,41 +25,6 @@
     text-align: center;
 }
 
-/* #coursesList {
-    padding-inline-start: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 20px;
-}
-
-.course {
-    list-style-type: none;
-    background-color: #eaeaea;
-    border-radius: 3px;
-    padding: 10px 20px;
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas:
-        'name image'
-        'house image';
-    text-align: left;
-}
-
-.course > h2 {
-    grid-area: name;
-    margin-bottom: 0px;
-}
-
-.course > p {
-    grid-area: house;
-    margin: 0;
-    margin-top: -18px;
-}
-
-.course > img {
-    max-height: 100px;
-    grid-area: image;
-} */
 
 #coursesList{
     padding: 0;
@@ -176,6 +141,15 @@
         </style>
     </head>
     <body>
+
+        <div id="searchWrapper" class="mt-4">
+            <input
+                type="text"
+                name="searchBar"
+                id="searchBar"
+                placeholder="Nhập tên công thức để tìm kiếm"
+            />
+        </div>
         <div class="container mt-4">
             <ul id="coursesList">
             {{#each formulas}}

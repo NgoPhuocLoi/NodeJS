@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Document</title>
-        <!-- <link rel="stylesheet" href="app.css"> -->
-        
+
         <style>
             body {
-    font-family: sans-serif;
-    background-color: #ccc;
+    background-color: #13141B;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -21,9 +12,7 @@
 
 .container {
     margin: 0 auto;
-    max-width: 1000px;
 }
-
 
 #coursesList{
     padding: 0;
@@ -36,13 +25,13 @@
 }
 
  .course{
-    background-color: #fff;
+    background-color: #282E3E;
     width: 48%;
     display: flex;
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
-
+    color: #fff;
 } 
 
 
@@ -112,35 +101,46 @@
         width: 100%;
     }
 }
+
+.form-group label{
+    color: #fff;
+}
+
+.form-control, .form-control:focus{
+    background-color: #282E3E;
+    color: #fff;
+}
+
         </style>
     </head>
     <body>
-        <div class="container">
-            <div class="mt-4">
-                <form method="POST" action="/formula/store"> 
-                    <div class="form-group">
-                        <label for="name">Nhập công thức để thêm</label>
-                        <input type="text" name="name" class="form-control" id="name">
-                    </div>
-                    
 
-                    <button type="submit" class="btn btn-dark">Thêm</button>
-                </form>
+        {{> header}}
+    <div class="mt-4">
+        <form method="POST" action="/formula/store"> 
+            <div class="form-group">
+                <label for="name">Nhập công thức để thêm</label>
+                <input type="text" name="name" class="form-control" id="name">
             </div>
-            <div id="searchWrapper" class="mt-4">
-                <input
-                    type="text"
-                    name="searchBar"
-                    id="searchBar"
-                    placeholder="Nhập tên công thức để tìm kiếm"
-                />
-            </div>
-            <ul id="coursesList">
-            {{#each formulas}}
-                <div name="{{this.name}}" id="{{this._id}}" class="input"></div>
-            {{/each}}
-            </ul>
-        </div>
+            
+
+            <button type="submit" class="btn btn-dark">Thêm</button>
+        </form>
+    </div>
+    <div id="searchWrapper" class="mt-4">
+        <input
+            type="text"
+            name="searchBar"
+            id="searchBar"
+            placeholder="Nhập tên công thức để tìm kiếm"
+        />
+    </div>
+    <ul id="coursesList">
+    {{#each formulas}}
+        <div name="{{this.name}}" id="{{this._id}}" class="input"></div>
+    {{/each}}
+    </ul>
+
 
         <form method="POST" class="delete-form"></form>
         

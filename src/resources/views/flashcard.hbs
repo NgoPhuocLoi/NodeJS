@@ -10,6 +10,7 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
+  position: relative;
 }
 ::-webkit-scrollbar{
   display: none;
@@ -74,7 +75,7 @@ body {
 }
 
 .wraper{
-  margin:auto;
+  margin: 0 auto;
   max-width: 700px;
   overflow-x: hidden;
   position: relative;
@@ -98,11 +99,11 @@ body {
 
 }
 
-.button-prev{
+div.button-prev{
   left: 35%;
 }
 
-.button-next{
+div.button-next{
   right: 35%;
 }
 
@@ -129,6 +130,18 @@ body {
   .button-prev{
   left: 30%;
 }
+
+.button-next{
+  right: 30%;
+}
+}
+@media (min-width:800px){
+  .wraper{
+    align-self: flex-start;
+    margin-top: 50px;
+  }
+}
+
 
 .button-next{
   right: 30%;

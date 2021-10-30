@@ -136,7 +136,7 @@
     font-size: 24px;
     color: #F6A8C1;
     font-weight: 600;
-    
+    font-size: 20px;
 }
 
 
@@ -168,7 +168,6 @@
     background-color: #CE5876;
     bottom: 0;
     left: 0;
-    width: 25%;
     /* right: 1px; */
     transition: .4s;
 }
@@ -265,6 +264,8 @@ displayCourses(courses);
             const line = document.querySelector('.line')
             const formulas = document.querySelectorAll('.course')
             const first = document.querySelectorAll(".course[type='1']")
+
+            line.style.width = `${tabs[0].offsetWidth}px`
             first.forEach(item => {
                 item.classList.add("active")
             })

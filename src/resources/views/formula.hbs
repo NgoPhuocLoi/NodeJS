@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Document</title>
-        <!-- <link rel="stylesheet" href="app.css"> -->
-        
-        <style>
+
+<style>
             body {
     font-family: sans-serif;
     background-color: #ccc;
@@ -20,11 +12,11 @@
 }
 
 .container {
+    /* padding: 40px; */
     margin: 0 auto;
     max-width: 1000px;
     text-align: center;
 }
-
 
 #coursesList{
     padding: 0;
@@ -36,61 +28,49 @@
     margin-top: 20px;
 }
 
-/* .course{
-    background-color: #fff;
+.course[type="1"]{
+    background-color: #ccc;
     width: 48%;
+    min-height: 260px;
     display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 10px;
     border-radius: 10px;
-    overflow: hidden;
-
-} */
-.course{
-    width: 350px; height: 120px;
-	
-	background: #f2f9fe;
-	background: linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -webkit-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -moz-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -ms-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	background: -o-linear-gradient(top, #f2f9fe 5%, #d6f0fd 100%);
-	
-	border-radius: 100px;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-	
-	position: relative;
-	margin: 120px auto 20px;
+    /* overflow: hidden; */
+    /* display: none; */
+    background-image: url("/images/pic4.png");
+    background-position: center;
+    color: #333;
+}
+.course[type="2"]{
+    background-color: #ccc;
+    width: 48%;
+    min-height: 260px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    /* overflow: hidden; */
+    /* display: none; */
+    background-image: url("/images/pic2.png");
+    background-position: center;
+    color: #fff;
 }
 
-.course:after, .course:before {
-	content: '';
-	position: absolute;
-	background: #f2f9fe;
-	z-index: -1
-}
 
-.course:after {
-	width: 100px; height: 100px;
-	top: -50px; left: 50px;
-	
-	border-radius: 100px;
-	-webkit-border-radius: 100px;
-	-moz-border-radius: 100px;
-}
 
-.course:before {
-	width: 180px; height: 180px;
-	top: -90px; right: 50px;
-	border-radius: 200px;
-	-webkit-border-radius: 200px;
-	-moz-border-radius: 200px;
-}
 
 
 .course-info{
     flex: 2;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .course-info h2 {
@@ -101,12 +81,22 @@
     flex: 3;
     padding: 10px;
 }
-
 .course img{
     width: 100%;
     /* height: 100%; */
     border-radius: 6px;
 }
+
+.course .img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
 
 #searchBar {
     width: 100%;
@@ -134,10 +124,63 @@
 }
 
 @media (max-width:770px){
-    .course{
-        width: 100%;
+    li.course{
+        width: 100% !important;
     }
 }
+/* tab */
+
+.tab-list{
+    position: relative;
+    display: flex;
+    font-size: 24px;
+    color: #F6A8C1;
+    font-weight: 600;
+    
+}
+
+
+.tab.active{
+    color: #CE5876;
+}
+
+
+.tab{
+    padding: 10px 12px;
+    cursor: pointer;
+    position: relative;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-color: transparent;
+
+    
+}
+
+.tab:hover{
+    border-bottom-color: #FBDCE6;
+    
+}
+
+.line{
+    position: absolute;
+    border-radius: 4px;
+    height: 4px;
+    background-color: #CE5876;
+    bottom: 0;
+    left: 0;
+    width: 25%;
+    /* right: 1px; */
+    transition: .4s;
+}
+
+li.course[type]{
+    display: none;
+}
+
+li.course[type].active{
+    display: flex;
+}
+
         </style>
     </head>
     <body>
@@ -150,13 +193,17 @@
                 placeholder="Nhập tên công thức để tìm kiếm"
             />
         </div>
-        <div class="container mt-4">
+        <div class="tab-list">
+            <div class="tab active">Vô Cơ</div>
+            <div class="tab">Hữu Cơ</div>
+            <div class="line"></div>
+        </div>
+       
             <ul id="coursesList">
             {{#each formulas}}
-                <div name="{{this.name}}" class="input"></div>
+                <div name="{{this.name}}" type="{{this.type}}" class="input"></div>
             {{/each}}
             </ul>
-        </div>
         
        
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -170,7 +217,10 @@ const courses = []
 const input = document.querySelectorAll("div[name]")
 
 input.forEach(course => {
-    courses.push({name: course.getAttribute("name")})
+    courses.push({
+        name: course.getAttribute("name"),
+        type: course.getAttribute("type"),
+    })
 })
 console.log(courses)
 
@@ -191,24 +241,13 @@ searchBar.addEventListener('keyup', (e) => {
     MathJax.typeset(); 
 });
 
-/*
-<a href="${course.video}" class="course-img" target="_blank">
-                    <img src="${course.image}" />   
-                </a>
-    <h5>${course.age}</h5>
-*/
 
 const displayCourses = (courses) => {
     const htmlString = courses
         .map((course) => {
             return `
-            <li class="course">
-                <div class="course-info">
-                    <h2>${course.name}</h2>
-                    
-                </div>
-                
-                
+            <li class="course" type="${course.type}">
+                    ${course.name}
             </li>
         `;
         })
@@ -222,8 +261,29 @@ displayCourses(courses);
         </script>
 
         <script>
-            
-            
+            const tabs = document.querySelectorAll(".tab");
+            const line = document.querySelector('.line')
+            const formulas = document.querySelectorAll('.course')
+            const first = document.querySelectorAll(".course[type='1']")
+            first.forEach(item => {
+                item.classList.add("active")
+            })
+
+            tabs.forEach((tab, index) => {
+                tab.onclick = () => {
+                    document.querySelector('.tab.active').classList.remove('active')
+                    tab.classList.add('active')
+                    line.style.left = `${tab.offsetLeft}px`
+                    line.style.width = `${tab.offsetWidth}px`
+                    const activeFormula = document.querySelectorAll(".course.active")
+                    activeFormula.forEach(item => {
+                        item.classList.remove("active")
+                    })
+                    document.querySelectorAll(`.course[type="${index+1}"]`).forEach(item => {
+                        item.classList.add("active")
+                    })
+                }
+            })
         </script>
     </body>
 </html>

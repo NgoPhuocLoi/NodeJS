@@ -2,7 +2,7 @@
 <style>
             body {
     font-family: sans-serif;
-    background-color: #ccc;
+    background-color: #fff;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -29,7 +29,7 @@
 }
 
 .course[type="1"]{
-    background-color: #ccc;
+    background-color: #fff;
     width: 48%;
     min-height: 260px;
     display: flex;
@@ -45,7 +45,7 @@
     color: #333;
 }
 .course[type="2"]{
-    background-color: #ccc;
+    background-color: #fff;
     width: 48%;
     min-height: 260px;
     display: flex;
@@ -114,6 +114,7 @@
 #searchWrapper input{
     height: 46px;
     font-size: 16px;
+    border: 1px solid #000;
 }
 
 #searchWrapper::after {
@@ -189,12 +190,12 @@ li.course[type].active{
                 type="text"
                 name="searchBar"
                 id="searchBar"
-                placeholder="Nhập tên công thức để tìm kiếm"
+                placeholder="Enter formula name to search"
             />
         </div>
         <div class="tab-list">
-            <div class="tab active">Vô Cơ</div>
-            <div class="tab">Hữu Cơ</div>
+            <div class="tab active">Inorganic Chemistry</div>
+            <div class="tab">Organic Chemistry</div>
             <div class="line"></div>
         </div>
        
@@ -215,6 +216,8 @@ const searchBar = document.getElementById('searchBar');
 const courses = []
 const input = document.querySelectorAll("div[name]")
 
+
+const activeInput = document.querySelectorAll(".course.active")
 input.forEach(course => {
     courses.push({
         name: course.getAttribute("name"),
@@ -234,9 +237,18 @@ searchBar.addEventListener('keyup', (e) => {
         );
     });
 
-
     
-    displayCourses(filteredCourses);
+    const filteredCourseList = filteredCourses
+        .map((course) => {
+            return `
+            <li class="course active" type="${course.type}">
+                    ${course.name}
+            </li>
+        `;
+        })
+        .join('');
+    coursesList.innerHTML = filteredCourseList;
+    
     MathJax.typeset(); 
 });
 
@@ -265,11 +277,12 @@ displayCourses(courses);
             const formulas = document.querySelectorAll('.course')
             const first = document.querySelectorAll(".course[type='1']")
 
-            line.style.width = `${tabs[0].offsetWidth}px`
-            first.forEach(item => {
-                item.classList.add("active")
-            })
+            
+    first.forEach(item => {
+        item.classList.add("active")
+    })
 
+            line.style.width = `${tabs[0].offsetWidth}px`
             tabs.forEach((tab, index) => {
                 tab.onclick = () => {
                     document.querySelector('.tab.active').classList.remove('active')

@@ -1,8 +1,8 @@
 
         <style>
             body {
-    font-family: sans-serif;
-    background-color: #ccc;
+    font-family: 'Pacifico', cursive;
+    background-color: #EDE1C7;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -15,9 +15,7 @@ h1 {
     margin-bottom: 30px;
 }
 .container {
-    padding: 40px;
     margin: 0 auto;
-    max-width: 1000px;
     text-align: center;
 }
 
@@ -48,6 +46,8 @@ h1 {
 .course-info{
     flex: 4;
     padding: 10px;
+    border-left: 2px solid #EDE1C7;
+    text-align: left;
 }
 
 .course-info h2 {
@@ -55,8 +55,9 @@ h1 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    height: fit-content;
+    margin-bottom: 0;
     overflow-y: hidden;
+    
 }
 
 .course-info h5{
@@ -102,6 +103,19 @@ h1 {
 @media (max-width:550px){
     .course{
         flex-direction: column-reverse;
+    }
+}
+@media (min-width:1000px){
+    .course-info h2{
+        padding: 20px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        margin-bottom: 0;
+        overflow-y: hidden;
+    }
+    .course-info h5{
+        padding: 20px;
     }
 }
         </style>

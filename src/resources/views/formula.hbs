@@ -1,8 +1,8 @@
 
 <style>
             body {
-    font-family: sans-serif;
-    background-color: #fff;
+    font-family: 'Pacifico', cursive;
+    background-color: #EDE1C7;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -14,7 +14,6 @@
 .container {
     /* padding: 40px; */
     margin: 0 auto;
-    max-width: 1000px;
     text-align: center;
 }
 
@@ -29,7 +28,7 @@
 }
 
 .course[type="1"]{
-    background-color: #fff;
+    background-color: #EDE1C7;
     width: 48%;
     min-height: 260px;
     display: flex;
@@ -45,7 +44,7 @@
     color: #333;
 }
 .course[type="2"]{
-    background-color: #fff;
+    background-color: #EDE1C7;
     width: 48%;
     min-height: 260px;
     display: flex;
@@ -129,20 +128,29 @@
         width: 100% !important;
     }
 }
+@media (min-width:1024px){
+    li.course{
+        width: 30% !important;
+    }
+    #coursesList{
+        justify-content: space-around;
+    }
+
+}
 /* tab */
 
 .tab-list{
     position: relative;
     display: flex;
     font-size: 24px;
-    color: #F6A8C1;
+    color: #c9b99d;
     font-weight: 600;
     font-size: 20px;
 }
 
 
 .tab.active{
-    color: #CE5876;
+    color: #DBB16A;
 }
 
 
@@ -166,7 +174,7 @@
     position: absolute;
     border-radius: 4px;
     height: 4px;
-    background-color: #CE5876;
+    background-color: #DBB16A;
     bottom: 0;
     left: 0;
     /* right: 1px; */
@@ -185,7 +193,7 @@ li.course[type].active{
     </head>
     <body>
 
-        <div id="searchWrapper" class="mt-4">
+        <div id="searchWrapper">
             <input
                 type="text"
                 name="searchBar"

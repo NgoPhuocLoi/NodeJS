@@ -8,6 +8,7 @@ const TN = new Schema({
   class: {type: Number, min:1},
   imgUrl: {type: String},
   videoUrl: {type: String},
+  imgFile: {type: String},
 },{
     // Make Mongoose use Unix time (seconds since Jan 1, 1970)
     timestamps: true

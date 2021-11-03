@@ -1,0 +1,97 @@
+
+<div class="mt-4">
+    <form method="GET" action="/chemicalEqt/search"> 
+        <div class="form-group">
+            <label for="reagent">Reagent</label>
+            <input type="text" name="reagent" class="form-control" id="reagent">
+        </div>
+        <div class="form-group">
+            <label for="product">Product</label>
+            <input type="text" name="product" class="form-control" id="product">
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Search</button>
+    </form>
+</div>
+<ul class="chemicalEqt-list">
+    
+</ul>
+
+<div class="data-list">
+    {{#each results}}
+        <div class='data' reagent="{{this.reagent}}" product="{{this.product}}"></div>
+    {{/each}}
+</div>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+
+<script>
+    function transformChemical(chemicalList, characterList){
+        const newArr = []
+        let count = 0
+
+        chemicalList = chemicalList.map(item => item.toUpperCase())
+        characterList = characterList.map(item => item.toUpperCase())
+        
+        chemicalList.forEach(item => {
+          characterList.forEach(cha => {
+            if(item.includes(cha)) {
+              count++
+            
+              item = item.replace(cha,cha.replace(cha[1], cha[1].toLowerCase()))
+              
+              newArr.push(item)
+            }
+            })
+          if(count === 0) newArr.push(item.toUpperCase())
+          count = 0
+        })
+        newArr.forEach((item, index )=> {
+            characterList.forEach(cha => {
+              if(item.includes(cha)) {
+                newArr.splice(newArr.indexOf(item), 1)
+              }
+            })
+            
+        })
+        return newArr   
+      }
+</script>
+
+<script>
+    const chemicalList = []
+    const dataList = document.querySelectorAll(".data")
+    const chemicalEqtList = document.querySelector(".chemicalEqt-list")
+    let arr1 = [], arr2 = []
+    let sample = ['mn', 'ba', 'cl', 'na','fe']
+    dataList.forEach(data => {
+        
+        arr1.push(data.getAttribute("reagent").split(" "))
+        arr2.push(data.getAttribute("product").split(" "))
+    })
+
+    arr1 = arr1.map(item => transformChemical(item,sample))
+    arr2 = arr2.map(item => transformChemical(item,sample))
+    arr1.forEach((item, index) => {
+        chemicalList.push({
+            reagent: item.join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{').replace(/\]/g, '}'),
+            product: arr2[index].join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{').replace(/\]/g, '}'),
+        })
+        console.log(chemicalList[index].reagent)
+        console.log(chemicalList[index].product)
+
+    })
+
+    const html = chemicalList.map(item => {
+        return `
+            <li class="chemicalEqt-item">
+                <h4>\\(${item.reagent} \\to ${item.product}\\)</h4>
+            </li>
+        `
+    }).join("")
+
+    chemicalEqtList.innerHTML = html
+
+</script>

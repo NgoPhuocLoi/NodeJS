@@ -42,6 +42,7 @@
     background-image: url("/images/pic4.png");
     background-position: center;
     color: #333;
+    font-size: 22px;
 }
 .course[type="2"]{
     background-color: #EDE1C7;
@@ -58,6 +59,7 @@
     background-image: url("/images/pic2.png");
     background-position: center;
     color: #fff;
+    font-size: 22px;
 }
 
 
@@ -181,15 +183,15 @@
     transition: .4s;
 }
 
-li.course[type]{
+/*li.course[type]{
     display: none;
 }
 
 li.course[type].active{
     display: flex;
-}
+}*/
 
-        </style>
+</style>
     </head>
     <body>
 
@@ -207,13 +209,12 @@ li.course[type].active{
             <div class="line"></div>
         </div>
        
-            <ul id="coursesList">
+            <ul id="coursesList" type="1">
             {{#each formulas}}
                 <div name="{{this.name}}" type="{{this.type}}" class="input"></div>
             {{/each}}
             </ul>
         
-       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
         <!-- <script src="custom.js"></script> -->
@@ -232,17 +233,17 @@ input.forEach(course => {
         type: course.getAttribute("type"),
     })
 })
-console.log(courses)
 
 searchBar.addEventListener('keyup', (e) => {
-    const searchString = e.target.value.toLowerCase();
-
-    const filteredCourses = courses.filter((course) => {
+    const searchString = e.target.value.trim().toLowerCase();
+    const courseDisplayed = courses.filter(item => item.type.toString() == coursesList.getAttribute("type"))
+    const filteredCourses = courseDisplayed.filter((course) => {
         const indexSlap = course.name.indexOf("\\")
         const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
+        const formatName = course.name.replace(/\$\$/g,'').replace(/(\\over)+/, '').replace(/(\\times)+/, '').replace(/\\+/, '').toLowerCase().trim().slice(0,course.name.indexOf(' =')).replace('=','')
         return (
-            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString)
-        );
+            formatName.includes(searchString)
+        )
     });
 
     
@@ -273,7 +274,8 @@ const displayCourses = (courses) => {
         .join('');
     coursesList.innerHTML = htmlString;
 };
-displayCourses(courses);
+const courseDisplayedFirst = courses.filter(item => item.type.toString() == coursesList.getAttribute("type"))
+displayCourses(courseDisplayedFirst);
 
             
             
@@ -282,13 +284,8 @@ displayCourses(courses);
         <script>
             const tabs = document.querySelectorAll(".tab");
             const line = document.querySelector('.line')
-            const formulas = document.querySelectorAll('.course')
-            const first = document.querySelectorAll(".course[type='1']")
-
             
-    first.forEach(item => {
-        item.classList.add("active")
-    })
+
 
             line.style.width = `${tabs[0].offsetWidth}px`
             tabs.forEach((tab, index) => {
@@ -297,13 +294,14 @@ displayCourses(courses);
                     tab.classList.add('active')
                     line.style.left = `${tab.offsetLeft}px`
                     line.style.width = `${tab.offsetWidth}px`
-                    const activeFormula = document.querySelectorAll(".course.active")
-                    activeFormula.forEach(item => {
-                        item.classList.remove("active")
-                    })
-                    document.querySelectorAll(`.course[type="${index+1}"]`).forEach(item => {
-                        item.classList.add("active")
-                    })
+                    searchBar.value = ''
+
+                    coursesList.setAttribute("type", index + 1)
+                    const filteredList = courses.filter(item => item.type.toString() == coursesList.getAttribute("type"))
+                    displayCourses(filteredList)
+                    MathJax.typeset(); 
+
+                    
                 }
             })
         </script>

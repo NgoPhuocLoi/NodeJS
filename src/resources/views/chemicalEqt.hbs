@@ -1,4 +1,44 @@
+<style>
+    body{
+        font-family: 'Pacifico', cursive;
+        background-color: #EDE1C7;
+    }
+    .chemicalEqt-list{
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        margin-top: 20px;
+    }
 
+    .chemicalEqt-item{
+        padding: 8px 14px;
+        border: 1px solid #DBB16A;
+        border-left-width: 5px;
+        background-color: #fff;
+        border-radius: 6px;
+        margin-top: 10px;
+        overflow-x: auto;
+        padding-right: 10px;
+    }
+
+    .chemicalEqt-item::-webkit-scrollbar{
+        height: 4px;
+        background-color: #ddd;
+    }
+    .chemicalEqt-item::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        height: auto;
+        background-color: #999;
+    }
+
+    .chemicalEqt-item h4{ 
+        margin: 0;
+        font-size: 20px;
+    }
+    .form-control{
+        border: 1px solid #000;
+    }
+</style>
 <div class="mt-4">
     <form method="GET" action="/chemicalEqt/search"> 
         <div class="form-group">
@@ -11,16 +51,18 @@
         </div>
         
 
-        <button type="submit" class="btn btn-dark">Search</button>
+        <button type="submit" class="btn btn-dark search-btn">Search</button>
     </form>
 </div>
-<ul class="chemicalEqt-list">
+<ul class="chemicalEqt-list no-search">
     
 </ul>
 
 <div class="data-list">
     {{#each results}}
         <div class='data' reagent="{{this.reagent}}" product="{{this.product}}"></div>
+    {{!-- {{else}}
+        <h1>No result</h1> --}}
     {{/each}}
 </div>
 
@@ -76,22 +118,27 @@
     arr2 = arr2.map(item => transformChemical(item,sample))
     arr1.forEach((item, index) => {
         chemicalList.push({
-            reagent: item.join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{').replace(/\]/g, '}'),
-            product: arr2[index].join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{').replace(/\]/g, '}'),
+            reagent: item.join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{(').replace(/\]/g, ')}'),
+            product: arr2[index].join(" ").replace(/{/gi, '_{').replace(/\(/g, '').replace(/\)/g, '').replace(/\[/g, '{(').replace(/\]/g, ')}'),
         })
         console.log(chemicalList[index].reagent)
         console.log(chemicalList[index].product)
 
     })
 
-    const html = chemicalList.map(item => {
+    let html = chemicalList.map(item => {
         return `
             <li class="chemicalEqt-item">
                 <h4>\\(${item.reagent} \\to ${item.product}\\)</h4>
             </li>
         `
     }).join("")
-
+    /*if(html == '') html = `
+            <li class="chemicalEqt-item">
+                <h4>No result. Try again</h4>
+            </li>
+            `*/
     chemicalEqtList.innerHTML = html
+    
 
 </script>

@@ -23,16 +23,7 @@ class ChemicalEqtController{
         const productDB = []
         const ids = []
         const newID = []
-        
-        // ChemicalEqt.find({$or:[{reagent: {$in : reagent} }, {product: {$in : product}}]})
-        //     .then((results) => {
-        //         // results = results.map(result => result.toObject())
-        //         // res.render('./chemicalEqt/result.hbs', {results})
-        //         res.json(results)
-        //     })
-        //     .catch(next)
-
-        // res.send(b)
+        console.log("data", data)
         
         ChemicalEqt.find({})
             .then(results => {
@@ -90,6 +81,7 @@ class ChemicalEqtController{
 
     //[GET] /flashcard/edit
     edit(req,res, next){
+        
         Promise.all([ChemicalEqt.find({}), ChemicalEqt.countDocumentsDeleted()])
             .then(([chemicalEqts, count]) => {
                 chemicalEqts = chemicalEqts.map(chemicalEqt => chemicalEqt.toObject())
@@ -116,10 +108,26 @@ class ChemicalEqtController{
             .then(() => res.redirect('/chemicalEqt/edit'))
             .catch(next)
     }
-    //[GET] /:slug
-    // send(req,res){
-    //     res.send('hello')
-    // }
+    // [GET] /chemicalEqt/:id/change
+    change(req, res, next){
+        ChemicalEqt.findById(req.params.id)
+            .then(eqt => {
+                eqt = eqt.toObject()
+                // res.json(eqt)
+                res.render('chemicalEqt/change', {eqt})
+            })
+            .catch(next)
+        // res.send(req.params.id)
+        
+    }
+
+    // [PUT] /chemicalEqt/:id
+    update(req, res, next){
+        const newChemicalEqt = req.body
+        ChemicalEqt.findByIdAndUpdate(req.params.id, newChemicalEqt)
+            .then(() => res.redirect('/chemicalEqt/edit'))
+            .catch(next)
+    }
 }
 
 

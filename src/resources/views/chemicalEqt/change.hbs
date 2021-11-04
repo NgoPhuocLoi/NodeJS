@@ -1,0 +1,17 @@
+<h1 style="text-align: center;">Change Chemical Equation</h1>
+<div class="mt-4">
+    <form method="POST" action="/chemicalEqt/{{eqt._id}}?_method=PUT"> 
+        <div class="form-group">
+            <label for="reagent">Reagent</label>
+            <input type="text" value="{{eqt.reagent}}" name="reagent" class="form-control" id="reagent">
+        </div>
+        <div class="form-group">
+            <label for="product">Product</label>
+            <input type="text" value="{{eqt.product}}" name="product" class="form-control" id="product">
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Change</button>
+    </form>
+</div>
+

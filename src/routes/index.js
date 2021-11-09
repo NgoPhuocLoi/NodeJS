@@ -5,11 +5,14 @@ const formulaRouter = require('./formula')
 const TNRouter = require('./TN')
 const flashcardRouter = require('./flashcard')
 const chemicalEqtRouter = require('./chemicalEqt')
+const formula3DRouter = require('./formula3D')
 
 function route(app){
     app.use('/news', newsRouter)
 
     app.use('/formula', formulaRouter)
+
+    app.use('/formula3D', formula3DRouter)
 
     app.use('/chemicalEqt', chemicalEqtRouter)
 

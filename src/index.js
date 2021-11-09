@@ -2,12 +2,14 @@
 const express = require('express')
 // const morgan = require('morgan')
 const handlebars  = require('express-handlebars')
+const cors = require("cors");
+
 const path = require('path')
 const app = express()
 const port = process.env.PORT || 3000;
 
 const route = require('./routes')
-const db = require('./config/db')
+const db = require('./config/db/index.js')
 const methodOverride = require('method-override')
 
 // method overwrite
@@ -17,7 +19,7 @@ app.use(methodOverride('_method'))
 db.connect()
 
 // use middleware
-
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 

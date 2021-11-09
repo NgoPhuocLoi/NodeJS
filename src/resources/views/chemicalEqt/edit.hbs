@@ -3,22 +3,29 @@
     *{
         margin: 0;padding: 0;
     }
+    body{
+        background-color: #13141B;
+        color: #fff;
+        
+    }
     .chemicalEqt-list{
         list-style: none;
         width: 100%;
         margin-top: 20px;
+
     }
 
     .chemicalEqt-item{
         width: 100%;
         height: fit-content;
         padding: 12px;
-        border-bottom: 1px solid #ccc;
         position: relative;
         font-size: 16px;
         margin-top: 10px;
         word-wrap: break-word;
         overflow-x: auto;
+        background-color: #282E3E;
+        border-radius: 6px;
     }
 
     .chemicalEqt-item::-webkit-scrollbar{
@@ -66,8 +73,12 @@
         width: 100%;
         word-wrap: break-word;
     }
+    .form-control, .form-control:focus{
+        background-color: #282E3E;
+        color: #fff;
+    }
 </style>
-<h1 style="text-align: center;">Edit Chemical Equation</h1>
+{{> header}}
 <div class="mt-4">
     <form method="POST" action="/chemicalEqt/store"> 
         <div class="form-group">
@@ -136,7 +147,7 @@
     const dataList = document.querySelectorAll(".input")
     const chemicalEqtList = document.querySelector(".chemicalEqt-list")
     let arr1 = [], arr2 = []
-    let sample = ['mn', 'ba', 'cl', 'na','fe']
+    let sample = ['mn', 'ba', 'cl', 'na','fe','al']
     dataList.forEach(data => {
         arr1.push(data.getAttribute("reagent").split(" "))
         arr2.push(data.getAttribute("product").split(" "))

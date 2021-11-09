@@ -1,8 +1,10 @@
 const TN = require('../models/TN')
 
+
 class TNController{
     // [GET] /TN
     index(req,res, next){
+        
         Promise.all([TN.find({}), TN.countDocumentsDeleted()])
             .then(([TNs, count]) => {
                 TNs = TNs.map(TN => TN.toObject())
@@ -15,15 +17,14 @@ class TNController{
 
     // [GET] /TN/edit
     edit(req,res, next){
-        Promise.all([TN.find({}), TN.countDocumentsDeleted()])
-            .then(([TNs, count]) => {
-                TNs = TNs.map(TN => TN.toObject())
-
-                res.render('TN/edit', {TNs, count})
-            })
-            .catch(next)  // (next) = (err => next(err))
-        
-    }
+      Promise.all([TN.find({}), TN.countDocumentsDeleted()])
+          .then(([TNs, count]) => {
+              TNs = TNs.map(TN => TN.toObject())
+              res.render('TN/edit', {TNs, count})
+          })
+          .catch(next)  // (next) = (err => next(err))
+      
+  }
 
     // [GET] /TN/create
     create(req, res, next){
@@ -36,7 +37,10 @@ class TNController{
         const ThiNghiem = new TN(formData)
         ThiNghiem.save()
             .then(() => res.redirect('/TN/edit'))
+            .catch(next)
+        // res.json(formData)
     }
+
 
     // [DELETE] /TN/:id/force
     deleteForce(req, res, next){

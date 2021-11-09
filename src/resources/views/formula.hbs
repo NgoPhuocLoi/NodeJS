@@ -240,7 +240,7 @@ searchBar.addEventListener('keyup', (e) => {
     const filteredCourses = courseDisplayed.filter((course) => {
         const indexSlap = course.name.indexOf("\\")
         const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
-        const formatName = course.name.replace(/\$\$/g,'').replace(/(\\over)+/, '').replace(/(\\times)+/, '').replace(/\\+/, '').toLowerCase().trim().slice(0,course.name.indexOf(' =')).replace('=','')
+        const formatName = course.name.replace(/(\\over)+/, '').replace(/(\\times)+/, '').replace(/\\+/, '').toLowerCase().trim().slice(0,course.name.indexOf(' =')).replace('=','')
         return (
             formatName.includes(searchString)
         )
@@ -251,7 +251,7 @@ searchBar.addEventListener('keyup', (e) => {
         .map((course) => {
             return `
             <li class="course active" type="${course.type}">
-                    ${course.name}
+                    $$${course.name}$$
             </li>
         `;
         })

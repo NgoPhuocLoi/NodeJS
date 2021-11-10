@@ -32,9 +32,12 @@
     border-radius: 10px;
     overflow: hidden;
     color: #fff;
+    position: relative;
 } 
 
-
+.course[type="2"]{
+    background-color: #008000;
+}
 
 .course-info{
     flex: 2;
@@ -45,14 +48,19 @@
 }
 
 .delete-btn{
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    background-color: red;
-    color: #ccc;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 18px;
     cursor: pointer;
+    transition: .25s;
+}
+
+.delete-btn:hover{
+    color: red;
 }
 
 .course-info h2 {
@@ -68,6 +76,13 @@
     width: 100%;
     /* height: 100%; */
     border-radius: 6px;
+}
+
+.title{
+    color: #fff;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
 }
 
 #searchBar {
@@ -111,6 +126,50 @@
     color: #fff;
 }
 
+/* tab */
+
+.tab-list{
+    position: relative;
+    display: flex;
+    font-size: 24px;
+    color: #c9b99d;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+
+.tab.active{
+    color: #DBB16A;
+}
+
+
+.tab{
+    padding: 10px 12px;
+    cursor: pointer;
+    position: relative;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-bottom-color: transparent;
+
+    
+}
+
+.tab:hover{
+    border-bottom-color: #FBDCE6;
+    
+}
+
+.line{
+    position: absolute;
+    border-radius: 4px;
+    height: 4px;
+    background-color: #DBB16A;
+    bottom: 0;
+    left: 0;
+    /* right: 1px; */
+    transition: .4s;
+}
+
         </style>
     </head>
     <body>
@@ -132,17 +191,17 @@
             <button type="submit" class="btn btn-dark mt-4">Thêm</button>
         </form>
     </div>
-    <div id="searchWrapper" class="mt-4">
-        <input
-            type="text"
-            name="searchBar"
-            id="searchBar"
-            placeholder="Nhập tên công thức để tìm kiếm"
-        />
+    <h2 class="title">Công thức đã thêm</h2>
+    
+
+    <div class="tab-list">
+        <div class="tab active">Inorganic Chemistry</div>
+        <div class="tab">Organic Chemistry</div>
+        <div class="line"></div>
     </div>
-    <ul id="coursesList">
+    <ul id="coursesList" type="1">
     {{#each formulas}}
-        <div name="{{this.name}}" id="{{this._id}}" class="input"></div>
+        <div name="{{this.name}}" id="{{this._id}}" type="{{this.type}}" class="input"></div>
     {{/each}}
     </ul>
 
@@ -156,34 +215,18 @@
         <script>
                         
 const coursesList = document.getElementById('coursesList');
-const searchBar = document.getElementById('searchBar');
 const courses = []
 const input = document.querySelectorAll("div[name]")
 
 input.forEach(course => {
     courses.push({
         id: course.getAttribute("id"),
-        name: course.getAttribute("name")
+        name: course.getAttribute("name"),
+        type: course.getAttribute("type")
     })
 })
 console.log(courses)
 
-searchBar.addEventListener('keyup', (e) => {
-    const searchString = e.target.value.toLowerCase();
-
-    const filteredCourses = courses.filter((course) => {
-        const indexSlap = course.name.indexOf("\\")
-        const indexSpace = course.name.indexOf(' ', course.name.indexOf("\\"))
-        return (
-            (course.name.toLowerCase().slice(0, indexSlap) + course.name.toLowerCase().slice(indexSpace)).includes(searchString)
-        );
-    });
-
-
-    
-    displayCourses(filteredCourses);
-    MathJax.typeset(); 
-});
 
 /*
 <a href="${course.video}" class="course-img" target="_blank">
@@ -196,7 +239,7 @@ const displayCourses = (courses) => {
     const htmlString = courses
         .map((course) => {
             return `
-            <li class="course">
+            <li class="course" type="${course.type}">
                 <div class="course-info">
                     $$${course.name}$$
                     
@@ -209,17 +252,46 @@ const displayCourses = (courses) => {
         .join('');
     coursesList.innerHTML = htmlString;
 };
-displayCourses(courses);
+const courseDisplayedFirst = courses.filter(item => item.type.toString() == coursesList.getAttribute("type"))
+displayCourses(courseDisplayedFirst);
 
             
             
         </script>
+        <script>
+            const tabs = document.querySelectorAll(".tab");
+            const line = document.querySelector('.line')
+            
 
+
+            line.style.width = `${tabs[0].offsetWidth}px`
+            tabs.forEach((tab, index) => {
+                tab.onclick = () => {
+                    document.querySelector('.tab.active').classList.remove('active')
+                    tab.classList.add('active')
+                    line.style.left = `${tab.offsetLeft}px`
+                    line.style.width = `${tab.offsetWidth}px`
+
+                    coursesList.setAttribute("type", index + 1)
+                    const filteredList = courses.filter(item => item.type.toString() == coursesList.getAttribute("type"))
+                    displayCourses(filteredList)
+                    MathJax.typeset(); 
+
+                    deleteBtns = document.querySelectorAll('.delete-btn')
+                    deleteBtns.forEach(btn => {
+                        btn.addEventListener('click', function(){
+                            const formulaID = btn.getAttribute("id")
+                            deleteForm.action = `/formula/${formulaID}/force?_method=DELETE `
+                            deleteForm.submit()
+                    })
+                    })
+                }
+            })
+        </script>
         <script>
             const submitBtn = document.querySelector('.submit-btn')
-            const deleteBtns = document.querySelectorAll('.delete-btn')
+            let deleteBtns = document.querySelectorAll('.delete-btn')
             const deleteForm = document.querySelector('.delete-form')
-            console.log(deleteBtns)
             deleteBtns.forEach(btn => {
                 btn.addEventListener('click', function(){
                     const formulaID = btn.getAttribute("id")
@@ -229,5 +301,6 @@ displayCourses(courses);
             })
             
         </script>
+        
     </body>
 </html>

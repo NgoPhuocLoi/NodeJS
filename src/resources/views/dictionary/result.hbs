@@ -10,6 +10,7 @@
         width: 50%;
         display: flex;
         flex-direction: column;
+        position: relative;
     }
     
     .form-item{
@@ -17,13 +18,15 @@
         min-height: 230px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        padding: 30px;
+        padding: 50px 30px 30px;
+        width: 100%;
     }
     .form-item:active{
         border:none;
     }
     .result{
         width: 50%;
+        position: relative;
     }
     .result-name{
 
@@ -33,10 +36,9 @@
         border: 1px solid #ccc;
         height: 230px;
         border-radius: 4px;
-        margin-top: 8px;
         list-style: none;
         font-size: 30px;
-        padding: 30px;
+        padding: 50px 30px 30px;
         background-color: #fff;
     }
 
@@ -44,6 +46,19 @@
         font-size: 30px;
         text-transform: uppercase;
         color: #DBB16A;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 5px;
+    }
+    @media (max-width:700px){
+        .input-wrapper{
+            flex-direction: column;
+        }
+
+        .result, .input-group{
+            width: 100%;
+        }
     }
 </style>
 
@@ -67,7 +82,7 @@
         </div>
         
 
-        <button type="submit" class="btn btn-dark">Thêm</button>
+        <button type="submit" class="btn btn-dark">Search</button>
     </form>
 </div>
 <div class="data-list">

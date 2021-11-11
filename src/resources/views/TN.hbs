@@ -132,7 +132,7 @@ h1 {
         <div class="container mt-4">
             <ul id="coursesList">
             {{#each TNs}}
-                <div name="{{this.name}}" age="{{this.class}}" imgUrl="{{this.imgUrl}}" videoUrl="{{this.videoUrl}}"  class="input"></div>
+                <div name="{{this.name}}" age="{{this.class}}" videoUrl="{{this.videoUrl}}"  class="input"></div>
             {{/each}}
             </ul>
         </div>
@@ -152,7 +152,6 @@ input.forEach(course => {
     courses.push({
         name: course.getAttribute("name"),
         class: course.getAttribute("age"),
-        imgUrl: course.getAttribute("imgUrl"),
         videoUrl: course.getAttribute("videoUrl"),
     })
 })
@@ -193,7 +192,7 @@ const displayCourses = (courses) => {
                     <h5>Lớp: ${course.class}</h5>
                 </div>
                 <a href="${course.videoUrl}" class="course-img" target="_blank">
-                    <img src="${course.imgUrl}" />   
+                    <img src="/images/TN.jpg" />   
                 </a>
                 
             </li>

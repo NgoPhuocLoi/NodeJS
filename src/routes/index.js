@@ -6,6 +6,7 @@ const TNRouter = require('./TN')
 const flashcardRouter = require('./flashcard')
 const chemicalEqtRouter = require('./chemicalEqt')
 const formula3DRouter = require('./formula3D')
+const dictionaryRouter = require('./dictionary')
 
 function route(app){
     app.use('/news', newsRouter)
@@ -13,6 +14,8 @@ function route(app){
     app.use('/formula', formulaRouter)
 
     app.use('/formula3D', formula3DRouter)
+
+    app.use('/dictionary', dictionaryRouter)
 
     app.use('/chemicalEqt', chemicalEqtRouter)
 

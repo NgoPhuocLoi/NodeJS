@@ -127,10 +127,7 @@ h1 {
                         <label for="class">Lớp</label>
                         <input type="text" name="class" class="form-control" id="class">
                     </div>
-                    <div class="form-group">
-                        <label for="imgUrl">Link ảnh</label>
-                        <input type="text" name="imgUrl" class="form-control" id="imgUrl">
-                    </div>
+                    
                     <div class="form-group">
                         <label for="videoUrl">Link video</label>
                         <input type="text" name="videoUrl" class="form-control" id="videoUrl">
@@ -146,7 +143,7 @@ h1 {
             <h2 class="title">Thí nghiệm đã thêm</h2>
             <ul id="coursesList"></ul>
             {{#each TNs}}
-                <div name="{{this.name}}" age="{{this.class}}" imgUrl="{{this.imgUrl}}" videoUrl="{{this.videoUrl}}" id={{this._id}} class="input"></div>
+                <div name="{{this.name}}" age="{{this.class}}" videoUrl="{{this.videoUrl}}" id={{this._id}} class="input"></div>
             {{/each}}
 
             
@@ -174,7 +171,6 @@ input.forEach(course => {
         id: course.getAttribute("id"),
         name: course.getAttribute("name"),
         class: course.getAttribute("age"),
-        imgUrl: course.getAttribute("imgUrl"),
         videoUrl: course.getAttribute("videoUrl"),
     })
 })
@@ -193,7 +189,7 @@ const displayCourses = (courses) => {
                     <h5>Lớp: ${course.class}</h5>
                 </div>
                 <a href="${course.videoUrl}" class="course-img" target="_blank">
-                    <img src="${course.imgUrl}" />   
+                    <img src="/images/TN.jpg" />   
                 </a>
                 
             </li>

@@ -3,13 +3,7 @@ const ChemicalEqt = require('../models/chemicalEqt')
 class ChemicalEqtController{
     // [GET] /chemicalEqt
     index(req,res, next){
-        // Promise.all([ChemicalEqt.find({}), ChemicalEqt.countDocumentsDeleted()])
-        //     .then(([chemicalEqts, count]) => {
-        //         chemicalEqts = chemicalEqts.map(chemicalEqt => chemicalEqt.toObject())
-
-        //         res.render('chemicalEqt', {chemicalEqts, count})
-        //     })
-        //     .catch(next)  // (next) = (err => next(err))
+        
         res.render("chemicalEqt")
         
     }

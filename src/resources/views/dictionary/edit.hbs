@@ -1,0 +1,207 @@
+
+<style>
+body {
+  height: 100vh;
+  background-color: #13141B;
+}
+*{
+    margin: 0;padding: 0;
+}
+
+.list{
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    padding-bottom: 20px;
+}
+
+.item{
+    display: flex;
+    background-color: #282E3E;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    position: relative;
+}
+
+.front-side{
+    width: 50%;
+    word-wrap: break-word;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.front-side::after{
+    content: "Kí hiệu";
+    font-size: 12px;
+    display: block;
+    width: 90%;
+    border-top: 2px solid #fff;
+    color: #fff;
+}
+
+.back-side{
+    width: 50%;
+    word-wrap: break-word;
+    border-left: 1px solid #fff;
+    padding-left: 10px;
+}
+
+.back-side::after{
+    content: "Tên";
+    font-size: 12px;
+    display: block;
+    width: 90%;
+    border-top: 2px solid #fff;
+    color: #fff;
+}
+
+mjx-container{
+    text-align: left !important;
+}
+
+.form-group label{
+    color: #fff;
+}
+
+.form-control, .form-control:focus{
+    background-color: #282E3E;
+    color: #fff;
+}
+
+.delete-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.delete-btn:hover{
+    color: red;
+}
+.title{
+    color: #fff;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+</style>
+</head>
+<body>
+{{> header}}
+<div class="mt-4">
+    <form method="POST" action="/dictionary/store"> 
+        <div class="form-group">
+            <label for="symbol">Nhập kí hiệu</label>
+            <input type="text" name="symbol" class="form-control" id="symbol">
+        </div>
+        <div class="form-group">
+            <label for="name">Nhập tên</label>
+            <input type="text" name="name" class="form-control" id="name">
+
+            
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Thêm</button>
+    </form>
+</div>
+
+<h2 class="title">Công thức đã thêm</h2>
+
+    <ul class="list">
+    </ul>
+
+</div>
+
+<div class="list-data">
+    {{#each dictionaries}}
+        <div symbol="{{this.symbol}}" name="{{this.name}}" id={{this._id}} class="input"></div>
+    {{/each}}
+</div>
+
+<form method="POST" class="delete-form"></form>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+
+<script>
+
+    const listData = []
+    const input = document.querySelectorAll(".input")
+    input.forEach(item => {
+        listData.push({
+            id: item.getAttribute("id"),
+            symbol: item.getAttribute("symbol"),
+            name: item.getAttribute("name"),
+        })
+    })
+
+    const listCard = document.querySelector(".list")
+    const html = listData.map(card => {
+        return `
+              <li class="item">
+          
+            <div class="front-side">
+              <p>${card.symbol}</p>
+            </div>
+            <div class="back-side">
+              <p>${card.name}</p>
+            </div>
+            <button class="delete-btn" id="${card.id}">X</button>
+        </li>
+        `
+    }).join("")
+    listCard.innerHTML = html;
+</script>
+
+<script>
+    const deleteBtns = document.querySelectorAll('.delete-btn')
+    const deleteForm = document.querySelector('.delete-form')
+    console.log(deleteBtns)
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', function(){
+            const dictionaryID = btn.getAttribute("id")
+            deleteForm.action = `/dictionary/${dictionaryID}/force?_method=DELETE `
+            deleteForm.submit()
+    })
+    })
+    
+</script>
+
+{{!-- <script>
+    const flipBoxs = document.querySelectorAll(".flip-box")
+    const inner = document.querySelector(".flip-box-inner")
+    flipBoxs.forEach(flipBox => {
+        flipBox.addEventListener("click", function(){
+            flipBox.classList.toggle("active")
+            MathJax.typeset();
+        })
+    })
+
+    const p_productList = new Swiper('.wraper', {
+            slidesPerView:1,
+            slidesPerGroup:1,
+            spaceBetween: 10,
+            // loop:true,
+            navigation: {
+              nextEl: '.button-next',
+              prevEl: '.button-prev',
+            },
+            pagination: {
+              el: ".swiper-pagination",
+              type: "fraction",
+            },
+    })
+    
+    
+</script> --}}
+</body>
+</html>

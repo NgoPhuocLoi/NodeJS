@@ -1,0 +1,106 @@
+<style>
+    body{
+        background-color: #EDE1C7;
+    }
+    .input-wrapper{
+        display: flex;
+    }
+
+    .input-group{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-item{
+        font-size: 30px;
+        min-height: 230px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 30px;
+    }
+    .form-item:active{
+        border:none;
+    }
+    .result{
+        width: 50%;
+    }
+    .result-name{
+
+    }
+    .result-list{
+        width: 100%;
+        border: 1px solid #ccc;
+        height: 230px;
+        border-radius: 4px;
+        margin-top: 8px;
+        list-style: none;
+        font-size: 30px;
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    .heading{
+        font-size: 30px;
+        text-transform: uppercase;
+        color: #DBB16A;
+    }
+</style>
+
+
+{{!-- <div class="mt-4">
+    <form method="POST" action="/flashcard/store" class="form-input"> 
+        <div class="input-wrapper">
+            <div class="form-group">
+                <label for="backSide">Symbol</label>
+                <textarea name="backSide" id="backSide" class="form-control"></textarea>
+            
+            </div>
+            <div class="result">
+                <div class="result-name">Name</div>
+                <ul class="result-list">
+
+                </ul>
+            </div>
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Thêm</button>
+    </form>
+</div> --}}
+
+<div class="">
+    <form method="GET" action="/dictionary/search" class="form-input"> 
+        <div class="input-wrapper">
+            <div class="input-group">
+                <label for="symbol" class="heading">Symbol</label>
+                <textarea name="symbol" id="symbol" class="form-item"></textarea>
+            
+            </div>
+            <div class="result">
+                <div class="result-name heading">Name</div>
+                <ul class="result-list">
+                    {{#each result}}
+                    <li>
+                        <h2>{{this.name}}</h2>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        
+
+        <button type="submit" class="btn btn-dark">Thêm</button>
+    </form>
+</div>
+<div class="data-list">
+    
+</div>
+
+<script>
+    const dataList = document.querySelector(".data-list")
+    const data = []
+    dataList.forEach(item => {
+        data.push({})
+    })
+</script>

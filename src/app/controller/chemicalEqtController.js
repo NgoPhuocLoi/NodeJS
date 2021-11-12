@@ -11,8 +11,8 @@ class ChemicalEqtController{
     // [GET] /chemicalEqt/search
     search(req,res,next){
         const data = req.query
-        const reagent = data.reagent.toLowerCase().trim().replace(/\s+/g, ' ').split(" ")
-        const product = data.product.toLowerCase().trim().replace(/\s+/g, ' ').split(" ")
+        const reagent = data.reagent.toLowerCase().trim().replace(/\s+/g, ' ').replace(/\(/g, '[').replace(/\)/g, ']').split(" ")
+        const product = data.product.toLowerCase().trim().replace(/\s+/g, ' ').replace(/\(/g, '[').replace(/\)/g, ']').split(" ")
         const reagentDB = []
         const productDB = []
         const ids = []
@@ -26,7 +26,9 @@ class ChemicalEqtController{
                     productDB.push(result.product.replace(/{/gi, '').replace(/}/gi, '').replace(/\t/gi, '').replace(/\(\d+\)/g, '').replace(/\+/g, ' + ').replace(/ +/g, ' ').toLowerCase().split(' '))
                     ids.push(result._id)
                 })
+                console.log("DB: ")
                 console.log(reagentDB, productDB)
+                console.log("INput: ")
                 console.log(reagent, product)
                 console.log(reagent[0] ==='', product[0] ==='')
                 if(reagent[0] !=='' && product[0] !==''){

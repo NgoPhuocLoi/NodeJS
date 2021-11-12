@@ -54,7 +54,7 @@ class DictionaryController{
                         console.log(newSymbol)
                     }else{
                         newData = {
-                            name: "Not found"
+                            name: "Not found. Please try again !!!"
                         }
 
                     }
